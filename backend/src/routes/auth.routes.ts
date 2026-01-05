@@ -1,11 +1,11 @@
 import express from 'express'
-import { home, loginUser, registerUser } from "../controller/auth.controller.ts";
+import { loginUser, myProfile, registerUser } from "../controller/auth.controller.ts";
 import userValidator from '../validation/user.validator.ts'
 import { authMiddleware } from "../middlewares/auth.middleware.ts";
 
 const router: express.Router = express.Router();
 
-router.get("/", authMiddleware, home)
+router.get("/me", authMiddleware, myProfile)
 
 router.post('/register', userValidator, registerUser)
 

@@ -3,9 +3,7 @@ import userModel from '../models/user.model.ts'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-export function home(req: Request, res: Response) {
-    res.send("Hello world")
-}
+
 
 export async function registerUser (req: Request, res: Response) {
     let {username, password} = req.body;
@@ -52,4 +50,16 @@ export async function loginUser (req: Request, res: Response) {
     } catch (error){
         res.status(500).json({message: "Internal server error"})
     }
+}
+
+export async function myProfile(req: Request, res: Response) {
+     try {
+
+        const user = await userModel.findOne({_id: req.user._id})
+
+        res.status(200).json({ user })
+        
+     } catch (error) {
+        res.status(500).json({message: "Internal server error"})
+     }
 }
