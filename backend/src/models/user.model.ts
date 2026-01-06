@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    profile: {
+        type: String,
+        default: "https://imgs.search.brave.com/81QxeWbLGrhEHgsIajq4DoDXB44Y_p3qxQQ7wfBWknY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5nYWxsLmNvbS93/cC1jb250ZW50L3Vw/bG9hZHMvNS9Qcm9m/aWxlLVBORy1JbWFn/ZS5wbmc"
+    },
     password: {
         type: String,
         required: true ,

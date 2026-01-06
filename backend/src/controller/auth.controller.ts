@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 
 
 export async function registerUser (req: Request, res: Response) {
-    let {username, password} = req.body;
+    let {username, profile, password} = req.body;
     username = username.trim(); password = password.trim();
 
     try {
@@ -14,7 +14,7 @@ export async function registerUser (req: Request, res: Response) {
         
         if(userExists) return res.status(409).json({message: "User is already exists"})
 
-        const userCreated = await userModel.create({username, password})
+        const userCreated = await userModel.create({username, profile, password})
 
         const JWT_SECRET: string = process.env.JWT_SECRET || ""
         const token = jwt.sign({_id: userCreated._id, username: userCreated.username}, JWT_SECRET)

@@ -4,7 +4,8 @@ import poolModel from "../models/pool.model.ts";
 import mongoose from "mongoose";
 
 export async function createPool(req: Request, res: Response) {
-  const { token, tokenAmount, tokenPrice } = req.body;
+  const { token, tokenImg, tokenAmount, tokenPrice } = req.body;
+  console.log(req.file)
 
   try {
     const isPool = await poolModel.findOne({ token });
@@ -17,6 +18,7 @@ export async function createPool(req: Request, res: Response) {
 
     const liquidityPool = await poolModel.create({
       token,
+      tokenImg,
       tokenAmount,
       amount: y_amount,
       constant: CONSTANT,
