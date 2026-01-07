@@ -2,10 +2,11 @@ import type { Request, Response } from "express";
 import userModel from "../models/user.model.ts";
 import poolModel from "../models/pool.model.ts";
 import mongoose from "mongoose";
+import { deleteImage, uploadImage } from "../config/imagekit.config.ts";
+import { client } from "../db/redis.ts";
 
 export async function createPool(req: Request, res: Response) {
-  const { token, tokenImg, tokenAmount, tokenPrice } = req.body;
-  console.log(req.file)
+  const { token, tokenAmount, tokenPrice } = req.body;
 
   try {
     const isPool = await poolModel.findOne({ token });
@@ -16,9 +17,15 @@ export async function createPool(req: Request, res: Response) {
 
     const CONSTANT: number = Math.ceil(tokenAmount * y_amount);
 
+    if(!req.file || !req.file.buffer){
+      return res.status(500).json({message: "Token picture is not given"})
+    }
+    const tokenImg = await uploadImage(req.file?.buffer)
+
     const liquidityPool = await poolModel.create({
       token,
-      tokenImg,
+      tokenImg: tokenImg?.url || "",
+      picId: tokenImg?.fileId || "",
       tokenAmount,
       amount: y_amount,
       constant: CONSTANT,
@@ -29,6 +36,25 @@ export async function createPool(req: Request, res: Response) {
   } catch (err) {
     res.status(500).json({ message: "Internal server Error" });
   }
+}
+
+export async function deletePool(req: Request, res: Response) {
+  const { pool } = req.params;
+
+  try {
+    const query = mongoose.Types.ObjectId.isValid(pool as string)
+      ? { $or: [{ _id: pool }, { token: pool }] }
+      : { token: pool };
+    const Lpool = await poolModel.findOne(query)
+    if(!Lpool) return res.status(404).json({message: "Liquidity pool is not found"})
+    await deleteImage(Lpool.picId)
+    await poolModel.findOneAndDelete({_id: Lpool._id})
+    res.status(200).json({message: "Liquidity pool is deleted sucessfully"})
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message: "Internal server error"})
+  }
+
 }
 
 export async function buyToken(req: Request, res: Response) {
@@ -173,7 +199,6 @@ export async function sellToken(req: Request, res: Response) {
   }
 }
 
-
 export async function getTokenPrice(req: Request, res: Response) {
   const { id } = req.params;
 
@@ -192,6 +217,29 @@ export async function getTokenPrice(req: Request, res: Response) {
     res.status(200).json({name: pool.token, buy_price: buyPrice, sell_price: sellPrice})
 
   } catch (err) {
+    res.status(500).json({message: "Internal server error"})
+  }
+}
+
+export async function getAirDrop(req: Request, res: Response) {
+  try {
+
+    const alreadyGet = await client.get(req.user._id)
+    if(alreadyGet) return res.status(401).json({message: "You can't access 2 airdrop in a day, Try after 24 hours"})
+
+    await client.set(req.user._id, 1, {
+      EX:86400
+    })
+
+    await userModel.findOneAndUpdate({_id: req.user._id}, {
+      $inc: {
+        money: 100
+      }
+    })
+
+    res.status(200).json({message: "Airdrop get sucessfully", amount: 100})
+    
+  } catch (error) {
     res.status(500).json({message: "Internal server error"})
   }
 }

@@ -10,6 +10,10 @@ const liquidityPool = new mongoose.Schema({
         type: String,
         required: true,
     },
+    picId: {
+        type: String,
+        required: true
+    },
     tokenAmount: {
         type: Number,
         required: true,
