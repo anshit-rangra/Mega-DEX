@@ -38,6 +38,16 @@ export async function createPool(req: Request, res: Response) {
   }
 }
 
+export async function getAllPool(req: Request, res: Response) {
+  try {
+    const allPools = await poolModel.find()
+
+    res.status(200).json({message: "Pools fetched sucessfully", pools: allPools})
+  } catch (error) {
+    res.status(500).json({message: "Internal server error"})
+  }
+}
+
 export async function deletePool(req: Request, res: Response) {
   const { pool } = req.params;
 
