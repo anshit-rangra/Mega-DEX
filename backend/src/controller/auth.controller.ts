@@ -63,3 +63,18 @@ export async function myProfile(req: Request, res: Response) {
         res.status(500).json({message: "Internal server error"})
      }
 }
+
+export async function userProfile(req: Request, res: Response) {
+    const { id  } = req.params;
+
+    try {
+        const user = await userModel.findOne({username: id})
+
+        if(!user) return res.status(404).json({message: "User not found"})
+
+        return res.status(200).json({user, message: "User fetch sucessfully"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: "Internal server error"})
+    }
+}

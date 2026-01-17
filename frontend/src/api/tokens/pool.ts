@@ -1,4 +1,12 @@
-import { json_instance } from "../instance";
+import { form_data_instance, json_instance } from "../instance";
+
+
+interface Form {
+  token: string;
+  tokenAmount: string;
+  tokenPrice: string;
+  image?:   File;
+}
 
 
 export async function getPool(id: string) {
@@ -11,6 +19,27 @@ export async function getPool(id: string) {
         return response;
     } catch (error: any) {
         const { response } = error;
+        return response;
+    }
+}
+
+export async function createPool(form: Form) {
+    const formData = new FormData();
+    formData.append("token", form.token);
+    formData.append("tokenPic", form?.image || "");
+    formData.append("tokenAmount", form.tokenAmount)
+    formData.append("tokenPrice", form.tokenPrice)
+
+    try {
+        const response = await form_data_instance.post("/api/token/create/pool", formData, {
+            headers: {
+                "Authorization": localStorage.getItem("auth-token")
+            }
+        })
+        return response;
+    } catch (error: any) {
+        const { response } = error;
+        console.log(error)
         return response;
     }
 }
