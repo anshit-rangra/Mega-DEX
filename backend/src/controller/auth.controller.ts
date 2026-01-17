@@ -20,7 +20,7 @@ export async function registerUser (req: Request, res: Response) {
         const token = jwt.sign({_id: userCreated._id, username: userCreated.username}, JWT_SECRET)
 
 
-        res.cookie("authToken", token)
+        res.cookie("authToken", token, {httpOnly: false, sameSite:"lax", secure: true})
         res.status(201).json({message: "User is created sucessfully", token})
 
     } catch (error) {
@@ -44,7 +44,7 @@ export async function loginUser (req: Request, res: Response) {
         const JWT_SECRET : string = process.env.JWT_SECRET || ""
         const token = jwt.sign({_id: userExists._id, username: userExists.username}, JWT_SECRET)
 
-        res.cookie("authToken", token)
+        res.cookie("authToken", token, {httpOnly: false,sameSite: "lax", secure: true})
         res.status(200).json({message: "User loggedIn sucessfully", token})
 
     } catch (error){

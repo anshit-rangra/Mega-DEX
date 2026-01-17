@@ -7,12 +7,12 @@ import { RedisConnection } from './src/db/redis.ts';
 const PORT: string = process.env.PORT || "";
 
 
-RedisConnection();
 connectDB().then(() => {
   
   app.listen(PORT, () => {
     console.log('Server is running on port ', PORT);
   });
+  RedisConnection();
 }).catch((err) => {
   console.log("Error coming via database")
 })

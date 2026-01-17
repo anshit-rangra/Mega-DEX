@@ -224,7 +224,7 @@ export async function getTokenPrice(req: Request, res: Response) {
 
     const sellPrice = Math.ceil(pool.amount / pool.tokenAmount)
 
-    res.status(200).json({name: pool.token, buy_price: buyPrice, sell_price: sellPrice})
+    res.status(200).json({_id: pool._id, name: pool.token, buy_price: buyPrice, sell_price: sellPrice})
 
   } catch (err) {
     res.status(500).json({message: "Internal server error"})

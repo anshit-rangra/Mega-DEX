@@ -12,6 +12,7 @@ declare global {
 
 export async function authMiddleware (req: Request, res: Response, next: NextFunction) {
     const token : string = req.cookies?.authToken || req.headers?.authorization?.split(" ")[1] || ""
+
     
     try {
     const JWT_SECRET = process.env.JWT_SECRET || ""
