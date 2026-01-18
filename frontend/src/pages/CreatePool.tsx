@@ -51,24 +51,26 @@ const CreatePool = () => {
     if (isLoading) return <Loader />
 
   return (
-    <>
+    <div className="form-container">
     <form onSubmit={handleSubmit}>
+      <h2>Create Token Pool</h2>
+      
       <label htmlFor="token">Token Name</label>
-      <input type="text" id="token" value={form.token} onChange={handleChange} />
+      <input type="text" id="token" placeholder="Enter token name" value={form.token} onChange={handleChange} />
 
-      <label htmlFor="tokenAmount">Number of Token</label>
-      <input type="text" id="tokenAmount" value={form.tokenAmount} onChange={handleChange} />
+      <label htmlFor="tokenAmount">Number of Tokens</label>
+      <input type="text" id="tokenAmount" placeholder="Enter token supply" value={form.tokenAmount} onChange={handleChange} />
 
-      <label htmlFor="tokenPrice">One Token price</label>
-      <input type="text" id="tokenPrice" value={form.tokenPrice} onChange={handleChange} />
+      <label htmlFor="tokenPrice">Token Price</label>
+      <input type="text" id="tokenPrice" placeholder="Enter price per token" value={form.tokenPrice} onChange={handleChange} />
 
       <label htmlFor="image">Token Image</label>
       <input type="file" id="image" onChange={handleFileChange} />
 
-      <input type="submit"  />
+      <input type="submit" value="Create Pool" />
 
     </form>
-    </>
+    </div>
   )
 }
 

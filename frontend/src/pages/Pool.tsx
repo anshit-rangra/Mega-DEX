@@ -63,12 +63,13 @@ const Pool = () => {
   }
 
   if (isLoading) return <Loader />;
-  if (error) return <h1>Error occur.....</h1>;
+  if (error) return <div className="error-container"><h1>Error occurred...</h1></div>;
 
   return (
-    <>
+    <div className="pool-container">
       <h1>{pool?.name}</h1>
 
+      <label htmlFor="quantity">Select Quantity</label>
       <select value={quantity} onChange={handleQuantityChange} id="quantity">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -77,17 +78,22 @@ const Pool = () => {
         <option value="5">5</option>
       </select>
 
-      <h1>Buy price = {pool?.buy_price}</h1>
+      <div className="pool-section">
+        <h2>Buy Token</h2>
+        <p>Price: <strong>{pool?.buy_price}</strong> per token</p>
+        <button name="buy" onClick={tokenOperation}>
+          Buy Token
+        </button>
+      </div>
 
-      <button name="buy" onClick={tokenOperation}>
-        Buy Token
-      </button>
-
-      <h1>Selling price = {pool?.sell_price}</h1>
-      <button name="sell" onClick={tokenOperation}>
-        Sell Token
-      </button>
-    </>
+      <div className="pool-section">
+        <h2>Sell Token</h2>
+        <p>Price: <strong>{pool?.sell_price}</strong> per token</p>
+        <button name="sell" onClick={tokenOperation}>
+          Sell Token
+        </button>
+      </div>
+    </div>
   );
 };
 

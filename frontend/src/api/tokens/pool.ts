@@ -11,11 +11,7 @@ interface Form {
 
 export async function getPool(id: string) {
     try {
-        const response = await json_instance.get(`/api/token/get/price/${id}`, {
-            headers: {
-                "Authorization": localStorage.getItem("auth-token")
-            }
-        })
+        const response = await json_instance.get(`/api/token/get/price/${id}`)
         return response;
     } catch (error: any) {
         const { response } = error;

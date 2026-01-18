@@ -44,28 +44,45 @@ const MyAccount = () => {
     if(isLoading) return <Loader />
 
   return (
-    <>
+    <div className="account-container">
         <h1>My Account</h1>
-        <div>
-            <img src={myAccountDetails?.profile} alt="" />
+        <div className="profile-section">
+            <img src={myAccountDetails?.profile} alt="Profile" />
+            <h2>{myAccountDetails?.username}</h2>
         </div>
-        <h1>username: {myAccountDetails?.username}</h1>
-        <h1>money: {myAccountDetails?.money}</h1>
-        <h1>Tokens :</h1>
-        {
-           myAccountDetails?.tokens && Object.keys(myAccountDetails.tokens).map((key) => {
+        
+        <div className="account-info">
+          <div className="info-card">
+            <span>Username</span>
+            <h3>{myAccountDetails?.username}</h3>
+          </div>
+          <div className="info-card">
+            <span>Balance</span>
+            <h3>{myAccountDetails?.money}</h3>
+          </div>
+        </div>
+
+        <div className="tokens-section">
+          <h2>My Tokens</h2>
+          {
+            myAccountDetails?.tokens && Object.keys(myAccountDetails.tokens).length > 0 ? 
+            Object.keys(myAccountDetails.tokens).map((key) => {
                     return (
-                        <div key={key}>
-                            <h1>{key} ---&gt; {myAccountDetails.tokens![key]}</h1>
+                        <div className="token-item" key={key}>
+                            <span>{key}</span>
+                            <strong>{myAccountDetails.tokens![key]}</strong>
                         </div>
                     )
-            })
-        }
+            }) : <p className="no-tokens">No tokens yet</p>
+          }
+        </div>
 
-        <h1>Get Drop</h1>
-        <button onClick={handleDrop}>Get Drop</button>
-
-    </>
+        <div className="drop-section">
+          <h2>Daily Airdrop</h2>
+          <p>Get free tokens every day!</p>
+          <button onClick={handleDrop}>Claim Airdrop</button>
+        </div>
+    </div>
   )
 }
 

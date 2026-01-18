@@ -27,19 +27,21 @@ const Home = () => {
   if(state.loading) return <Loader />
 
   return (
-    <div>
-        Home Page
+    <div className="home-container">
+        <h1>Token Pools</h1>
 
+        <div className="token-grid">
         {
           state.tokens.map((tokenPool: any) => {
             
-            return <div onClick={() => navigatePool(tokenPool._id)} style={{border: "2px solid red"}} key={tokenPool._id}>
+            return <div className="token-card" onClick={() => navigatePool(tokenPool._id)} key={tokenPool._id}>
               <img src={tokenPool.tokenImg} alt="token image" />
-            <h1>{tokenPool.token}</h1>
-            <h1>{tokenPool.amount / tokenPool.tokenAmount}</h1>
+            <h2>{tokenPool.token}</h2>
+            <p className="token-price">{Math.ceil(tokenPool.amount / tokenPool.tokenAmount)} <span>per token</span></p>
             </div>
           })
         }
+        </div>
     </div>
   )
 }

@@ -17,6 +17,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/find/user' element={<UserAccount />} />
+        <Route path='/pool/:id' element={<Pool />} />
 
         {
         !token ? 
@@ -26,7 +27,6 @@ const App = () => {
         </>
         :
         <>
-        <Route path='/pool/:id' element={<Pool />} />
         <Route path='/my-account' element={<MyAccount />} />
         <Route path='/create/pool' element={<CreatePool />} />
         </>
