@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 
 interface initial {
     tokens: [],
-    fetched: boolean,
     loading: boolean,
     error: null | string | undefined
     
@@ -12,7 +11,6 @@ interface initial {
 
 const initialState: initial = {
     tokens: [],
-    fetched: false,
     loading: false,
     error: null 
 }
@@ -41,7 +39,6 @@ const tokenSlice = createSlice({
             })
             .addCase(fetchAllTokens.fulfilled, (state, action) => {
                 state.loading = false;
-                state.fetched = true;
                 state.tokens = action.payload
             })
             .addCase(fetchAllTokens.rejected, (state, action) => {

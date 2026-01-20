@@ -13,11 +13,10 @@ const Home = () => {
   const state = useSelector((state: any) => state.token)
   
   useEffect(() => {
-    if(!state.fetched){
       dispatch(fetchAllTokens())
-    }
+    
 
-  }, [dispatch, state.fetched])
+  }, [dispatch])
 
 
   async function navigatePool(id: string) {

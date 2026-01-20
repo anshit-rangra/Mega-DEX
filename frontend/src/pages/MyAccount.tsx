@@ -35,6 +35,14 @@ const MyAccount = () => {
         setIsLoading(true)
         const response = await getDrop();
         setIsLoading(false)
+
+        if (myAccountDetails) {
+            setMyAccountDetails({
+              ...myAccountDetails,
+              money: myAccountDetails.money + response.data.amount
+            })
+        }
+
         if(response.status !== 200) {
             return toast.error(response.data.message || "Error occur")
         }
