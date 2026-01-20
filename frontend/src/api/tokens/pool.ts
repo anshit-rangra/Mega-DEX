@@ -29,7 +29,7 @@ export async function createPool(form: Form) {
     try {
         const response = await form_data_instance.post("/api/token/create/pool", formData, {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                "Authorization": localStorage.getItem("auth-token")
             }
         })
         return response;
@@ -45,7 +45,7 @@ export async function buyToken(id: string, qty: number = 1) {
     try {
         const response = await json_instance.post(`/api/token/buy?id=${id}&qty=${qty}`,{}, {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                "Authorization": localStorage.getItem("auth-token")
             }
         })
         return response;
@@ -59,7 +59,7 @@ export async function sellToken(id: string, qty: number = 1) {
     try {
         const response = await json_instance.post(`/api/token/sell?id=${id}&qty=${qty}`, {}, {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                "Authorization": localStorage.getItem("auth-token")
             }
         })
         return response;
@@ -74,7 +74,7 @@ export async function getDrop() {
     try {
         const response = await json_instance.get("/api/token/drop", {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("auth-token")}`
+                "Authorization" : localStorage.getItem("auth-token")
             }
         })
         return response;

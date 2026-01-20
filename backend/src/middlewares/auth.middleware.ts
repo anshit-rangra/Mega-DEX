@@ -1,5 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken'
+import { config } from "dotenv"
+
+config()
 
 declare global {
   namespace Express {
