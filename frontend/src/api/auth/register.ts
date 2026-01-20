@@ -10,7 +10,7 @@ interface Data {
 export async function registerUser(data: Data) {
     try {
         const response = await json_instance.post("/api/auth/register", data)
-              localStorage.setItem("auth-token", response.data.token)  
+              localStorage.setItem("auth-token", `Bearer ${response.data.token}`)  
               return response;
     } catch (error: any) {
         const {response} = error
