@@ -1,13 +1,16 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Pool from './pages/Pool'
-import MyAccount from './pages/MyAccount'
-import CreatePool from './pages/CreatePool'
-import UserAccount from './pages/UserAccount'
-import Navbar from './components/Navbar'
 import { useSelector } from 'react-redux'
+import Navbar from './components/Navbar'
+import Loader from './components/Loader'
+
+const Home = lazy(() => import('./pages/Home'))
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const Pool = lazy(() => import('./pages/Pool'))
+const MyAccount = lazy(() => import('./pages/MyAccount'))
+const CreatePool = lazy(() => import('./pages/CreatePool'))
+const UserAccount = lazy(() => import('./pages/UserAccount'))
 
 const App = () => {
  
@@ -16,6 +19,7 @@ const App = () => {
   return (
     <>
     <Navbar />
+    <Suspense fallback={<Loader />}>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/find/user' element={<UserAccount />} />
@@ -35,6 +39,7 @@ const App = () => {
         
         }
       </Routes>
+    </Suspense>
     </>
   )
 }

@@ -3,12 +3,16 @@ import AuthRoutes from './routes/auth.routes.ts'
 import cookieParser from 'cookie-parser';
 import TokenRoutes from './routes/token.routes.ts'
 import cors from 'cors'
+import {config} from "dotenv"
+
+config()
 
 const app = express();
 
 app.use(cors({
-    origin: true,
-    credentials: true
+    origin: process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
 }))
 
 app.use(express.json())
