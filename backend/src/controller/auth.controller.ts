@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 
 export async function registerUser (req: Request, res: Response) {
     let {username, profile, password} = req.body;
-    username = username.trim(); password = password.trim();
+    username = username.trim().toLowerCase(); password = password.trim();
 
     try {
         const userExists = await userModel.findOne({username})
@@ -31,7 +31,7 @@ export async function registerUser (req: Request, res: Response) {
 
 export async function loginUser (req: Request, res: Response) {
     const cred = req.body;
-    const username: string = cred.username.trim() || ""
+    const username: string = cred.username.trim().toLowerCase() || ""
     const password: string = cred.password.trim() || ""
 
     try {

@@ -1,10 +1,13 @@
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { logout } from "../store/slices/authSlice"
 
 
 const Navbar = () => {
       const token = document.cookie.includes("authToken") || localStorage.getItem("auth-token")
       const navigate = useNavigate()
+      const dispatch = useDispatch()
       const [isMenuOpen, setIsMenuOpen] = useState(false)
 
       function handleClick(e: any) {
@@ -29,7 +32,7 @@ const Navbar = () => {
         
         setIsMenuOpen(false)
         navigate('/login')
-        window.location.reload()
+        dispatch(logout())
       }
 
   return (

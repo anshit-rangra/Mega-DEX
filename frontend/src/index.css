@@ -1234,3 +1234,42 @@ button:active {
 .p-2 { padding: 1rem; }
 .p-3 { padding: 1.5rem; }
 .p-4 { padding: 2rem; }
+
+/* ===================================
+   AVATAR SELECTION
+   =================================== */
+
+.avatar-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.avatar-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 3px solid var(--border-color);
+  background: var(--tertiary-bg);
+  transition: all var(--transition-fast);
+}
+
+.avatar-circle:hover {
+  transform: scale(1.1);
+  border-color: var(--text-secondary);
+}
+
+.avatar-circle.selected {
+  border-color: var(--accent-lime);
+  box-shadow: var(--shadow-lime);
+}
+
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

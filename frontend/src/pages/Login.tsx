@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { loginUser } from "../api/auth/login";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { useAppDispatch } from "../store/hooks/useAppDispatch";
+import { loginTheUser } from "../store/slices/authSlice";
 
 
 const Login = () => {
+    const dispatch = useAppDispatch()
+
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
@@ -29,16 +32,16 @@ const Login = () => {
     event.preventDefault();
     
     setIsLoading(true)
-    const response = await loginUser(form)
+    const response: any = await dispatch(loginTheUser(form))
     setIsLoading(false)
     
-    if(response?.status === 200){
+    if(response?.payload.status === 200){
         setForm({username:"", password:""})
-        toast.success(response.data.message)
+        toast.success(response.payload.data.message)
         navigate("/");
     }else {
         
-        toast.error(response.data.message)
+        toast.error(response.payload.data.message)
     }
   };
 

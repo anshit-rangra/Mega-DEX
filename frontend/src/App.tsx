@@ -7,9 +7,11 @@ import MyAccount from './pages/MyAccount'
 import CreatePool from './pages/CreatePool'
 import UserAccount from './pages/UserAccount'
 import Navbar from './components/Navbar'
+import { useSelector } from 'react-redux'
 
 const App = () => {
-  const token = document.cookie.includes("authToken") || localStorage.getItem("auth-token")
+ 
+  const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated)
 
   return (
     <>
@@ -20,16 +22,17 @@ const App = () => {
         <Route path='/pool/:id' element={<Pool />} />
 
         {
-        !token ? 
-        <>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        </>
-        :
+        isAuthenticated ? 
         <>
         <Route path='/my-account' element={<MyAccount />} />
         <Route path='/create/pool' element={<CreatePool />} />
         </>
+        :
+        <>
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        </>
+        
         }
       </Routes>
     </>

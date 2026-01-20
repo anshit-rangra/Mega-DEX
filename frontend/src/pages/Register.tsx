@@ -1,14 +1,27 @@
 import React, { useState } from "react"
-import { registerUser } from "../api/auth/register"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import Loader from "../components/Loader"
+import { useDispatch } from "react-redux"
+import { registerTheUser } from "../store/slices/authSlice"
 
+const avatars = [
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Max",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Luna",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Mia",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Leo",
+  "https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe",
+]
 
 const Register = () => {
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
+  const dispatch = useDispatch()
 
   const [form, setForm] = useState({
     username: "",
@@ -26,19 +39,32 @@ const Register = () => {
     setShowPassword(!showPassword)
   }
 
+  const handleAvatarSelect = (index: number) => {
+    setSelectedAvatar(index)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (selectedAvatar === null) {
+      toast.error("Please select a profile picture")
+      return
+    }
+
     setIsLoading(true)
-    const response = await registerUser(form)
+    const response: any = await dispatch(registerTheUser({
+      ...form,
+      profile: avatars[selectedAvatar]
+    }) as any)
     setIsLoading(false)
 
-    if(response?.status === 201) {
+    if(response?.payload?.status === 201) {
       setForm({username: "", password:""})
-      toast.success(response.data.message)
+      setSelectedAvatar(null)
+      toast.success(response.payload.data.message)
       navigate("/")
     } else {
-      toast.error(response?.data.message)
+      toast.error(response?.payload?.data.message)
     }
   }
 
@@ -47,6 +73,20 @@ const Register = () => {
   return (
     <form onSubmit={handleSubmit} >
       <h2>Register User</h2>
+      
+      <label>Choose your avatar</label>
+      <div className="avatar-selection">
+        {avatars.map((avatar, index) => (
+          <div
+            key={index}
+            className={`avatar-circle ${selectedAvatar === index ? 'selected' : ''}`}
+            onClick={() => handleAvatarSelect(index)}
+          >
+            <img src={avatar} alt={`Avatar ${index + 1}`} />
+          </div>
+        ))}
+      </div>
+
       <label htmlFor="username">Username</label>
       <input type="text" name="username" id="username" placeholder="Choose a username" value={form.username} onChange={handleChange}  />
       <label htmlFor="password">Password</label>
