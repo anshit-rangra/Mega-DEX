@@ -36,7 +36,7 @@ const MyAccount = () => {
         const response = await getDrop();
         setIsLoading(false)
 
-        if (myAccountDetails) {
+        if (response.status === 200 && myAccountDetails) {
             setMyAccountDetails({
               ...myAccountDetails,
               money: myAccountDetails.money + response.data.amount
