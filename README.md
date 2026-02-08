@@ -2,7 +2,7 @@
 
 A full-stack decentralized exchange (DEX) simulation platform where users can create token pools, buy/sell tokens, claim daily airdrops, and manage their portfolios — all with a virtual currency system.
 
-🌐 **Live Demo:** [https://mega-dex-one.vercel.app](https://mega-dex-one.vercel.app)
+🌐 **Live Demo:** [https://mega-dex-eosin.vercel.app/](https://mega-dex-eosin.vercel.app/)
 
 ## Features
 
